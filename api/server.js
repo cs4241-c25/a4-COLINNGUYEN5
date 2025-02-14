@@ -179,17 +179,27 @@ app.post('/api/login/password', (req, res, next) => {
             return res.status(500).json({ error: err.message });
         }
         if (!user) {
-            console.log("Login failed ", info.message);
             return res.status(401).json({ error: info.message });
         }
+
         req.logIn(user, (err) => {
             if (err) {
                 console.error("Error during login ", err);
                 return res.status(500).json({ error: err.message });
             }
-            return res.json({
-                success: true,
-                message: info?.message || "Login successful",
+
+            // 🔹 Ensure session is saved before sending a response
+            req.session.save((err) => {
+                if (err) {
+                    console.error("Session save error:", err);
+                    return res.status(500).json({ error: "Session could not be saved" });
+                }
+                console.log("Session saved successfully");
+                return res.json({
+                    success: true,
+                    message: info?.message || "Login successful",
+                    user: { username: user.username, _id: user._id }
+                });
             });
         });
     })(req, res, next);
