@@ -8,7 +8,7 @@ function Login() {
     const API_BASE_URL =
         window.location.hostname === "localhost"
             ? "http://localhost:3001"
-            : "https://a4-colinnguyen5.vercel.app";
+            : "https://a4-colinnguyen5.glitch.me";
 
     const handleLogin = async (e) => {
         e.preventDefault(); // Prevent default form submission

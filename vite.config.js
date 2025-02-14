@@ -10,7 +10,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'https://a4-colinnguyen5.vercel.app',
+                target: 'https://a4-colinnguyen5.glitch.me',
                 changeOrigin: true,
                 secure: false
             }

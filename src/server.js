@@ -21,16 +21,8 @@ const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgG
 const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
-const allowedOriginsRegex = /^https:\/\/.*\.vercel\.app$/;
-
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOriginsRegex.test(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("CORS policy does not allow this origin"));
-        }
-    },
+    origin: 'https://a4-colinnguyen5.glitch.me',
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -136,7 +128,7 @@ app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email
 app.get("/api/auth/github/callback", passport.authenticate("github", {failureRedirect: "/"}), (req, res) => {
     const baseURL = req.hostname === "localhost"
         ? "http://localhost:5173/tracking-sheet"
-        : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app/tracking-sheet";
+        : process.env.API_BASE_URL || "https://a4-colinnguyen5.glitch.me/tracking-sheet";
     res.redirect(`${baseURL}/`);
 })
 
@@ -146,7 +138,7 @@ app.get("/api/logout", (req, res, next) => {
 
         const baseURL = req.hostname === "localhost"
             ? "http://localhost:5173"
-            : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app";
+            : process.env.API_BASE_URL || "https://a4-colinnguyen5.glitch.me";
         const redirectURL = `${baseURL}`;
         res.setHeader("Access-Control-Allow-Origin", baseURL);
         res.setHeader("Access-Control-Allow-Credentials", "true");
