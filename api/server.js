@@ -35,7 +35,6 @@ app.use(cors({
         if (vercelRegex.test(origin)) {
             return callback(null, true);
         }
-
         return callback(new Error("CORS Not Allowed"));
     },
     credentials: true,
@@ -48,7 +47,7 @@ app.use(
     session({
         secret: process.env.SESSION_SECRET || "default_secret",
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
         store: MongoStore.create({
             mongoUrl: mongoURL,
             collectionName: "sessions"
