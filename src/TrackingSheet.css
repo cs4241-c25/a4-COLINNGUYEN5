@@ -1,0 +1,49 @@
+
+#index-page {
+    font-family: 'Montserrat', serif;
+    background:white;
+    color:black;
+    display:grid;
+    grid-template-columns: 20% 80%;
+
+}
+
+#index-page form {
+    background: beige;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+    padding: 5px;
+    gap: 8px;
+    height: auto;
+    align-self: start;
+}
+
+#index-page section.right-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#index-page section.major-components {
+    display: flex;
+}
+
+
+article {
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border: 1px solid;
+}
+
+table tr th {
+    border: 1px solid;
+}
+
+table tr td {
+    border: 1px solid;
+}

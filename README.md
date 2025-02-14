@@ -1,8 +1,4 @@
-# React + Vite
+ http://a4-colinnguyen5.glitch.me
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+My project is a tracking sheet for Computer Science majors. Users can log in and create a tracking sheet that will save their computer science courses in a database. 
+They are able to add, delete, and edit courses. I made some new CSS compared to assignment 3 and converted everything to React friendly using useStates and useEffects.
