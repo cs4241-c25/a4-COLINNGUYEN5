@@ -22,14 +22,17 @@ app.use(express.json());
 import path from "path";
 import { fileURLToPath } from "url";
 
+// Fix __dirname for ES module compatibility
+// Fix __dirname for ES module compatibility
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Serve Vite frontend from "dist" folder
-app.use(express.static(path.join(__dirname, "dist")));
+// 🔹 Serve static files (JS, CSS, assets) from `src/`
+app.use(express.static(path.join(__dirname)));
 
+// 🔹 Serve `index.html` from the root directory
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
+    res.sendFile(path.join(__dirname, "../index.html"));
+})
 
 const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgGaNpd@cluster0.sm3i7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const dbconnect = new MongoClient(mongoURL);
