@@ -11,7 +11,6 @@ import cors from "cors";
 
 dotenv.config();
 
-
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
@@ -25,7 +24,7 @@ const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
 app.use(cors({
-    origin: '*',
+    origin: "*",
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -151,8 +150,6 @@ app.get("/api/logout", (req, res, next) => {
 
 
 app.post('/api/login/password', (req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "https://a4-colinnguyen5.vercel.app");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
     passport.authenticate('local', (err, user, info) => {
         if (err) {
             console.error("Error ", err);
@@ -218,6 +215,7 @@ app.post("/api/submit", async (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+// app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+
 
 module.exports = app;
