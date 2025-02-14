@@ -27,16 +27,18 @@ const allowedOrigins = [
     "https://a4-colinnguyen5.vercel.app",
 ];
 
+app.options("*", cors()); // ✅ Handles preflight requests globally
+
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+        if (!origin || origin.includes(".vercel.app") || origin === "https://a4-colinnguyen5.vercel.app") {
             callback(null, true); // ✅ Allow requests from any Vercel frontend
         } else {
             callback(new Error("Not allowed by CORS"));
         }
     },
     credentials: true,
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.use(express.static('src'));
