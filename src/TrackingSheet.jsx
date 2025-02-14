@@ -61,7 +61,8 @@ function TrackingSheet() {
         setSheet(true);
         const response = await fetch( "/api/submit", {
             method:'POST',
-            body: JSON.stringify(user)
+            body: JSON.stringify(user),
+            credentials: "include",
         })
         const data = await response.json()
         setCourses(data);
