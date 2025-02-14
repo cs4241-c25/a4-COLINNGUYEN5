@@ -10,7 +10,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'http://localhost:3001',
+                target: 'https://a4-colinnguyen5.vercel.app',
                 changeOrigin: true,
                 secure: false
             }

@@ -8,7 +8,7 @@ function Login() {
     const API_BASE_URL =
         window.location.hostname === "localhost"
             ? "http://localhost:3001"
-            : "https://a4-colinnguyen5.vercel.app";
+            : "https://a4-colinnguyen5.glitch.me";
 
     const handleLogin = async (e) => {
         e.preventDefault(); // Prevent default form submission
@@ -17,7 +17,7 @@ function Login() {
                     return;
                 }
                 try {
-                    const response = await fetch(`https://a4-colinnguyen5.vercel.app/api/login/password`, {
+                    const response = await fetch(`${API_BASE_URL}/api/login/password`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ username, password }),

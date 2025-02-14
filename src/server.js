@@ -22,8 +22,8 @@ const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
 const allowedOrigins = [
-    "https://a4-colinnguyen5.vercel.app",
-    /\.vercel\.app$/,
+    "https://a4-colinnguyen5.vercel.app", // Your backend
+    /\.vercel\.app$/, // Any Vercel frontend
 ];
 
 app.use(cors({
