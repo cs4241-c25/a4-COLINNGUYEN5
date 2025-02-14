@@ -23,24 +23,49 @@ const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgG
 const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
-const allowedOrigins = [
-    "https://a4-colinnguyen5.vercel.app",
-];
+// app.use(cors({
+//     origin: (origin, callback) => {
+//         if (!origin || origin.includes(".vercel.app") || origin === "https://a4-colinnguyen5.vercel.app") {
+//             callback(null, true); // ✅ Allow requests from any Vercel frontend
+//         } else {
+//             callback(new Error("Not allowed by CORS"));
+//         }
+//     },
+//     credentials: true,
+//     methods: ["GET", "POST", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"]
+// }));
 
-app.options("*", cors()); // ✅ Handles preflight requests globally
 
-app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || origin.includes(".vercel.app") || origin === "https://a4-colinnguyen5.vercel.app") {
-            callback(null, true); // ✅ Allow requests from any Vercel frontend
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || origin.endsWith(".vercel.app") || origin === "https://a4-colinnguyen5.vercel.app") {
+            callback(null, true); // ✅ Allow all Vercel deployments
         } else {
-            callback(new Error("Not allowed by CORS"));
+            callback(new Error("CORS not allowed"));
         }
     },
-    credentials: true,
-    methods: ["GET", "POST", "OPTIONS"],
+    credentials: true, // ✅ Required for authentication (cookies, sessions)
+    methods: ["GET", "POST", "OPTIONS"], // ✅ Ensure OPTIONS is handled
     allowedHeaders: ["Content-Type", "Authorization"]
-}));
+};
+
+// ✅ 2️⃣ Apply CORS to all requests
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // ✅ Ensure preflight (`OPTIONS`) requests work
+
+// ✅ 3️⃣ Ensure Preflight (`OPTIONS`) Requests Return Correct Headers
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(204); // ✅ Respond with 204 No Content for preflight
+    }
+    next();
+});
+
 app.use(express.static('src'));
 app.use(
     session({
