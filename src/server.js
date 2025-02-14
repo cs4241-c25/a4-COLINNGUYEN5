@@ -19,26 +19,12 @@ const router = express.Router();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-import path from "path";
-import { fileURLToPath } from "url";
-
-// Fix __dirname for ES module compatibility
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// 🔹 Serve static files (JS, CSS, assets) from `src/`
-app.use(express.static(path.join(__dirname, "../src")));
-
-// 🔹 Serve `index.html` from the root directory
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../index.html"));
-});
-
 const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgGaNpd@cluster0.sm3i7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
 app.use(cors({
-    origin: "https://a4-colinnguyen5.glitch.me",
+    origin: "*",
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -144,7 +130,7 @@ app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email
 app.get("/api/auth/github/callback", passport.authenticate("github", {failureRedirect: "/"}), (req, res) => {
     const baseURL = req.hostname === "localhost"
         ? "http://localhost:5173/tracking-sheet"
-        : process.env.API_BASE_URL || "https://a4-colinnguyen5.glitch.me/tracking-sheet";
+        : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app/tracking-sheet";
     res.redirect(`${baseURL}/`);
 })
 
@@ -154,7 +140,7 @@ app.get("/api/logout", (req, res, next) => {
 
         const baseURL = req.hostname === "localhost"
             ? "http://localhost:5173"
-            : process.env.API_BASE_URL || "https://a4-colinnguyen5.glitch.me";
+            : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app";
         const redirectURL = `${baseURL}`;
         res.setHeader("Access-Control-Allow-Origin", baseURL);
         res.setHeader("Access-Control-Allow-Credentials", "true");
