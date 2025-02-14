@@ -63,7 +63,7 @@ app.use(
 
 async function run() {
     await dbconnect.connect().then(() => console.log("Connected!"));
-    collection = await dbconnect.db("cs4241").collection("classes");
+    collection = dbconnect.db("cs4241").collection("classes");
 }
 
 const appRun = run();
@@ -94,6 +94,10 @@ passport.use(
 
 passport.use(new LocalStrategy(async (username, password, cb) => {
     try {
+        if (!collection) {
+            console.error("MongoDB collection not initialized");
+            return cb(null, false, { message: "Database not connected yet" });
+        }
         const row = await collection.findOne({ username });
         if (!row) {
             const newUser = {
@@ -229,5 +233,7 @@ app.post("/api/submit", async (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+run().then(() => {
+    app.listen(PORT, () => console.log(`🚀 Server is running on port ${PORT}`));
+});
 
