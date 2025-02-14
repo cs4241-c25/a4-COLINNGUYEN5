@@ -121,9 +121,9 @@ app.use('/', (req, res, next) => {
     next(); // go to the next middleware for this route
 })
 
-// app.get("/", (req, res) => {
-//     res.send("API is running...");
-// });
+app.get("/", (req, res) => {
+    res.redirect("/");
+});
 
 app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email"] }));
 
