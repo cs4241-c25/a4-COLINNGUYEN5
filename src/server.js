@@ -17,14 +17,12 @@ const router = express.Router();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:5173";
-
 const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgGaNpd@cluster0.sm3i7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
 app.use(cors({
-    origin: process.env.API_BASE_URL,
+    origin: 'https://a4-colinnguyen5-cf16a6oz1-colinnguyen5s-projects.vercel.app',
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
