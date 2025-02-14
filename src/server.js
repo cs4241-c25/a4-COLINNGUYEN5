@@ -151,6 +151,8 @@ app.get("/api/logout", (req, res, next) => {
 
 
 app.post('/api/login/password', (req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "https://a4-colinnguyen5.vercel.app");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     passport.authenticate('local', (err, user, info) => {
         if (err) {
             console.error("Error ", err);
