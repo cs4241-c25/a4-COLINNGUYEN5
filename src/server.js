@@ -22,7 +22,7 @@ const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
 app.use(cors({
-    origin: 'https://a4-colinnguyen5-cf16a6oz1-colinnguyen5s-projects.vercel.app',
+    origin: 'https://a4-colinnguyen5-c6q3j5cop-colinnguyen5s-projects.vercel.app',
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
