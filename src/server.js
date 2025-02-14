@@ -19,6 +19,18 @@ const router = express.Router();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Serve Vite frontend from "dist" folder
+app.use(express.static(path.join(__dirname, "dist")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
 const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgGaNpd@cluster0.sm3i7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const dbconnect = new MongoClient(mongoURL);
 let collection = null;
@@ -122,7 +134,7 @@ app.use('/', (req, res, next) => {
 })
 
 app.get("/", (req, res) => {
-    res.redirect("/tracking-sheet");
+    res.send("API is running...");
 });
 
 app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email"] }));
@@ -213,7 +225,7 @@ app.post("/api/submit", async (req, res) => {
     res.json(results);
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
