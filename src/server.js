@@ -24,7 +24,7 @@ const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
 app.use(cors({
-    origin: "*",
+    origin: "https://a4-colinnguyen5.glitch.me",
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -121,16 +121,16 @@ app.use('/', (req, res, next) => {
     next(); // go to the next middleware for this route
 })
 
-app.get("/", (req, res) => {
-    res.send("API is running...");
-});
+// app.get("/", (req, res) => {
+//     res.send("API is running...");
+// });
 
 app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email"] }));
 
 app.get("/api/auth/github/callback", passport.authenticate("github", {failureRedirect: "/"}), (req, res) => {
     const baseURL = req.hostname === "localhost"
         ? "http://localhost:5173/tracking-sheet"
-        : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app/tracking-sheet";
+        : process.env.API_BASE_URL || "https://a4-colinnguyen5.glitch.me/tracking-sheet";
     res.redirect(`${baseURL}/`);
 })
 
@@ -140,7 +140,7 @@ app.get("/api/logout", (req, res, next) => {
 
         const baseURL = req.hostname === "localhost"
             ? "http://localhost:5173"
-            : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app";
+            : process.env.API_BASE_URL || "https://a4-colinnguyen5.glitch.me";
         const redirectURL = `${baseURL}`;
         res.setHeader("Access-Control-Allow-Origin", baseURL);
         res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -215,7 +215,5 @@ app.post("/api/submit", async (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 
-// app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
-
-module.exports = app;
