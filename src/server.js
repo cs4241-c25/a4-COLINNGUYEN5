@@ -1,4 +1,4 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import express from "express";
 import { MongoClient, ObjectId } from "mongodb";
 import MongoStore from "connect-mongo";
@@ -8,6 +8,9 @@ import { Strategy as LocalStrategy } from "passport-local";
 import session from "express-session";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import cors from "cors";
+
+dotenv.config();
+
 
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
