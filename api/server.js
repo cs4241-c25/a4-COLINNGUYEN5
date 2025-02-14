@@ -104,12 +104,17 @@ passport.use(new LocalStrategy(async (username, password, cb) => {
                 username: username,
                 password: password,
             };
-            await collection.insertOne(newUser);
-            return cb(null, newUser, { message: 'new_account_created' });
+            const result = await collection.insertOne(newUser);
+            const createdUser = await collection.findOne({ _id: result.insertedId });
+            if (!createdUser) {
+                return cb(null, false, { message: "Account creation failed" });
+            }
+            console.log("User created and authenticated:", createdUser);
+            return cb(null, createdUser, { message: 'new_account_created' });
         }
-        console.log("User found ", row);
+
         if (row.password !== password) {
-            console.log("Incorrect password for user ", username);
+            console.log("Incorrect password for user:", username);
             return cb(null, false, { message: 'Incorrect username or password' });
         }
         return cb(null, row);
