@@ -130,7 +130,7 @@ app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email
 app.get("/api/auth/github/callback", passport.authenticate("github", {failureRedirect: "/"}), (req, res) => {
     const baseURL = req.hostname === "localhost"
         ? "http://localhost:5173/tracking-sheet"
-        : process.env.API_BASE_URL || "https://a4-colinnguyen5.glitch.me/tracking-sheet";
+        : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app/tracking-sheet";
     res.redirect(`${baseURL}/`);
 })
 
@@ -140,7 +140,7 @@ app.get("/api/logout", (req, res, next) => {
 
         const baseURL = req.hostname === "localhost"
             ? "http://localhost:5173"
-            : process.env.API_BASE_URL || "https://a4-colinnguyen5.glitch.me";
+            : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app";
         const redirectURL = `${baseURL}`;
         res.setHeader("Access-Control-Allow-Origin", baseURL);
         res.setHeader("Access-Control-Allow-Credentials", "true");
