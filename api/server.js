@@ -53,7 +53,7 @@ app.use(
             collectionName: "sessions"
         }),
         cookie: {
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
             httpOnly: true,
             sameSite: "none",
         }
