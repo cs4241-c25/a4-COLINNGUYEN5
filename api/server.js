@@ -56,7 +56,7 @@ app.use(
         cookie: {
             secure: process.env.NODE_ENV === "production",
             httpOnly: true,
-            sameSite: "lax",
+            sameSite: "none",
         }
     })
 );
@@ -225,6 +225,10 @@ app.post("/api/remove", async (req, res) => {
 })
 
 app.post("/api/submit", async (req, res) => {
+    if (!req.user) {
+        console.error("User is not authenticated");
+        return res.status(401).json({ error: "User not authenticated" });
+    }
     const data = req.body;
     const userId = new ObjectId(req.user._id);
     const results = await collection.find({user: userId, component: { $exists: true } }).toArray();
