@@ -21,14 +21,11 @@ const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgG
 const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
-const allowedOrigins = [
-    "https://a4-colinnguyen5.vercel.app", // Your backend
-    /\.vercel\.app$/, // Any Vercel frontend
-];
+const allowedOriginsRegex = /^https:\/\/.*\.vercel\.app$/;
 
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.some((pattern) => typeof pattern === "string" ? origin === pattern : pattern.test(origin))) {
+        if (!origin || allowedOriginsRegex.test(origin)) {
             callback(null, true);
         } else {
             callback(new Error("CORS policy does not allow this origin"));
