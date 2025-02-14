@@ -8,6 +8,8 @@ export default defineConfig({
       tailwindcss(),
   ],
     server: {
+        host: "0.0.0.0", // Allow Glitch to serve the app
+        port: 3000,
         proxy: {
             '/api': {
                 target: 'https://a4-colinnguyen5.glitch.me',
