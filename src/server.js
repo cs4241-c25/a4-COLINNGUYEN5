@@ -122,7 +122,7 @@ app.use('/', (req, res, next) => {
 })
 
 app.get("/", (req, res) => {
-    res.redirect("/");
+    res.redirect("/tracking-sheet");
 });
 
 app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email"] }));
