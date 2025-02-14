@@ -21,8 +21,19 @@ const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgG
 const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
+const allowedOrigins = [
+    "https://a4-colinnguyen5.vercel.app",
+    /\.vercel\.app$/,
+];
+
 app.use(cors({
-    origin: 'https://a4-colinnguyen5-qhrubysne-colinnguyen5s-projects.vercel.app',
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.some((pattern) => typeof pattern === "string" ? origin === pattern : pattern.test(origin))) {
+            callback(null, true);
+        } else {
+            callback(new Error("CORS policy does not allow this origin"));
+        }
+    },
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
