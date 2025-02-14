@@ -131,13 +131,21 @@ passport.serializeUser(function(user, cb) {
     });
 });
 passport.deserializeUser(async function(user, cb) {
+    console.log("Deserializing user:", user);
     try {
         const dbUser = await collection.findOne({ _id: new ObjectId(user._id) });
+        if (!dbUser) {
+            console.log("User not found in DB");
+            return cb(null, false);
+        }
+        console.log("User found in DB:", dbUser);
         cb(null, dbUser);
     } catch (err) {
+        console.error("Error in deserializing user:", err);
         cb(err);
     }
 });
+
 
 app.use('/', (req, res, next) => {
     console.log('Request URL: ' + req.url);
@@ -239,20 +247,21 @@ app.post("/api/remove", async (req, res) => {
     res.json(results);
 })
 
-app.post("/api/submit", async (req, res) => {
-    if (!req.user) {
-        console.error("User is not authenticated");
-        return res.status(401).json({ error: "User not authenticated" });
-    }
-    const data = req.body;
-    const userId = new ObjectId(req.user._id);
-    const results = await collection.find({user: userId, component: { $exists: true } }).toArray();
-    res.json(results);
-});
+    app.post("/api/submit", async (req, res) => {
+        console.log("Checking authentication on /api/submit");
+        console.log("Request User:", req.user);
+        if (!req.user) {
+            console.log("User is NOT authenticated!");
+            return res.status(401).json({ error: "User not authenticated" });
+        }
+        const userId = new ObjectId(req.user._id);
+        const results = await collection.find({ user: userId, component: { $exists: true } }).toArray();
+        res.json(results);
+    });
 
 const PORT = process.env.PORT || 3001;
 
 run().then(() => {
-    app.listen(PORT, () => console.log(`🚀 Server is running on port ${PORT}`));
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 });
 
