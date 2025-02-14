@@ -186,26 +186,19 @@ app.post('/api/login/password', (req, res, next) => {
             return res.status(500).json({ error: err.message });
         }
         if (!user) {
+            console.log("Login failed ", info.message);
             return res.status(401).json({ error: info.message });
         }
-
         req.logIn(user, (err) => {
             if (err) {
                 console.error("Error during login ", err);
                 return res.status(500).json({ error: err.message });
             }
-
-            // 🔹 Ensure session is saved before sending a response
-            req.session.save((err) => {
-                if (err) {
-                    console.error("Session save error:", err);
-                    return res.status(500).json({ error: "Session could not be saved" });
-                }
-                console.log("Session saved successfully");
+            req.session.save(() => {
+                console.log("Session saved successfully:", req.session);
                 return res.json({
                     success: true,
                     message: info?.message || "Login successful",
-                    user: { username: user.username, _id: user._id }
                 });
             });
         });
@@ -246,17 +239,18 @@ app.post("/api/remove", async (req, res) => {
     res.json(results);
 })
 
-    app.post("/api/submit", async (req, res) => {
-        console.log("Checking authentication on /api/submit");
-        console.log("Request User:", req.user);
-        if (!req.user) {
-            console.log("User is NOT authenticated!");
-            return res.status(401).json({ error: "User not authenticated" });
-        }
-        const userId = new ObjectId(req.user._id);
-        const results = await collection.find({ user: userId, component: { $exists: true } }).toArray();
-        res.json(results);
-    });
+app.post("/api/submit", async (req, res) => {
+    console.log("Checking authentication on /api/submit");
+    console.log("Session Data:", req.session);
+    console.log("Request User:", req.user);
+    if (!req.user) {
+        console.log("User is NOT authenticated!");
+        return res.status(401).json({ error: "User not authenticated" });
+    }
+    const userId = new ObjectId(req.user._id);
+    const results = await collection.find({ user: userId, component: { $exists: true } }).toArray();
+    res.json(results);
+});
 
 const PORT = process.env.PORT || 3001;
 
