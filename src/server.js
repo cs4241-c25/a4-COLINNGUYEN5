@@ -23,8 +23,18 @@ const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgG
 const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
+const allowedOrigins = [
+    "https://a4-colinnguyen5.vercel.app",
+];
+
 app.use(cors({
-    origin: "*",
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+            callback(null, true); // ✅ Allow requests from any Vercel frontend
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
