@@ -17,7 +17,7 @@ function Login() {
                     return;
                 }
                 try {
-                    const response = await fetch(`${API_BASE_URL}/api/login/password`, {
+                    const response = await fetch(`https://a4-colinnguyen5.vercel.app/api/login/password`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ username, password }),
