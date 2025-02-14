@@ -24,7 +24,20 @@ const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
 app.use(cors({
-    origin: "*",
+    origin: function (origin, callback) {
+        // Allow localhost during development
+        if (!origin || origin.includes("localhost")) {
+            return callback(null, true);
+        }
+
+        // Allow any subdomain of vercel.app
+        const vercelRegex = /\.vercel\.app$/;
+        if (vercelRegex.test(origin)) {
+            return callback(null, true);
+        }
+
+        return callback(new Error("CORS Not Allowed"));
+    },
     credentials: true,
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
