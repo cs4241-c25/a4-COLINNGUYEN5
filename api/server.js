@@ -164,7 +164,7 @@ app.get("/api/auth/github/callback", passport.authenticate("github", {failureRed
     const baseURL = req.hostname === "localhost"
         ? "http://localhost:5173/tracking-sheet"
         : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app/tracking-sheet";
-    res.redirect(`${baseURL}/`);
+    res.redirect(`https://a4-colinnguyen5.vercel.app/tracking-sheet`);
 })
 
 app.get("/api/logout", (req, res, next) => {
