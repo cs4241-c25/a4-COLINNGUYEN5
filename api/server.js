@@ -87,6 +87,7 @@ passport.use(
                 username: profile.username,
                 userId: new ObjectId(),
             };
+            console.log("GitHub Profile Data:", profile);
             const result = await collection.insertOne(newUser);
             user = await collection.findOne({_id: result.insertedId});
         }
@@ -161,6 +162,11 @@ app.get("/", (req, res) => {
 app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email"] }));
 
 app.get("/api/auth/github/callback", passport.authenticate("github", {failureRedirect: "/"}), (req, res) => {
+    console.log("GitHub Callback - User:", req.user);
+    console.log("Session After GitHub Login:", req.session);
+    if (!req.user) {
+        return res.status(401).json({ error: "GitHub login failed" });
+    }
     const baseURL = req.hostname === "localhost"
         ? "http://localhost:5173/tracking-sheet"
         : `https://a4-colinnguyen5.vercel.app/tracking-sheet`;
