@@ -164,6 +164,7 @@ app.get("/api/auth/github/callback", passport.authenticate("github", {failureRed
     const baseURL = req.headers.host.includes("localhost")
         ? "http://localhost:5173/tracking-sheet"
         : `https://${req.headers.host}/tracking-sheet`;
+    console.log(baseURL);
     res.redirect(`${baseURL}`);
 })
 
