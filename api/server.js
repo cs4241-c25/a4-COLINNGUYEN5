@@ -242,7 +242,7 @@ app.post("/api/remove", async (req, res) => {
 })
 
 app.post("/api/submit", async (req, res) => {
-    console.log("Checking authentication on /api/submit");
+    console.log('Cookies:', req.cookies);
     console.log("Session Data:", req.session);
     console.log("Request User:", req.user);
     if (!req.user) {
