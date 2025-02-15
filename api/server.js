@@ -161,9 +161,9 @@ app.get("/", (req, res) => {
 app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email"] }));
 
 app.get("/api/auth/github/callback", passport.authenticate("github", {failureRedirect: "/"}), (req, res) => {
-    const baseURL = req.headers.host.includes("localhost")
+    const baseURL = req.hostname === "localhost"
         ? "http://localhost:5173/tracking-sheet"
-        : `https://${req.headers.host}/tracking-sheet`;
+        : `https://a4-colinnguyen5.vercel.app/tracking-sheet`;
     console.log(baseURL);
     res.redirect(`${baseURL}`);
 })
