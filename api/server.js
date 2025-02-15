@@ -161,10 +161,10 @@ app.get("/", (req, res) => {
 app.get("/api/auth/github", passport.authenticate('github', {scope: ["user:email"] }));
 
 app.get("/api/auth/github/callback", passport.authenticate("github", {failureRedirect: "/"}), (req, res) => {
-    const baseURL = req.hostname === "localhost"
+    const baseURL = req.headers.host.includes("localhost")
         ? "http://localhost:5173/tracking-sheet"
-        : process.env.API_BASE_URL || "https://a4-colinnguyen5.vercel.app/tracking-sheet";
-    res.redirect(`https://a4-colinnguyen5.vercel.app/tracking-sheet`);
+        : `https://${req.headers.host}/tracking-sheet`;
+    res.redirect(`${baseURL}`);
 })
 
 app.get("/api/logout", (req, res, next) => {
