@@ -31,7 +31,7 @@ function TrackingSheet() {
     const API_BASE_URL =
         window.location.hostname === "localhost"
             ? "http://localhost:3001"
-            : "https://a4-colinnguyen5.glitch.me";
+            : "https://a4-colinnguyen5.vercel.app";
 
     useEffect(() => {
         console.log("Courses were Changed")
@@ -83,7 +83,8 @@ function TrackingSheet() {
         const response = await fetch( "/api/add", {
             method:'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(addData)
+            body: JSON.stringify(addData),
+            credentials: "include",
         })
         const data = await response.json()
         setCourses(data);
@@ -102,7 +103,8 @@ function TrackingSheet() {
         const response = await fetch( "/api/edit", {
             method:'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(editData)
+            body: JSON.stringify(editData),
+            credentials: "include",
         })
         const data = await response.json();
         setCourses(data);
@@ -122,7 +124,8 @@ function TrackingSheet() {
         const response = await fetch( "/api/remove", {
             method:'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(removeData)
+            body: JSON.stringify(removeData),
+            credentials: "include",
         })
         const data = await response.json();
         setCourses(data);
