@@ -45,10 +45,6 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
-
 app.use(express.static('src'));
 app.use(
     session({
