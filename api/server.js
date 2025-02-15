@@ -23,6 +23,9 @@ const mongoURL = process.env.MONGODB_URI || "mongodb+srv://cnguyen1:rsAeemjMnIgG
 const dbconnect = new MongoClient(mongoURL);
 let collection = null;
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 app.set("trust proxy", 1);
 
 app.use(cors({
